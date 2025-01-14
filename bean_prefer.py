@@ -137,4 +137,4 @@ else:
     if st.session_state.recommended_beans:
         for i, bean in enumerate(st.session_state.recommended_beans, start=1):
             st.write(f"{i}. {bean}")
-        evaluate_recommendations(predicted_cafe)
+        evaluate_recommendations( st.session_state.recommended_beans)
