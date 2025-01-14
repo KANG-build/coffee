@@ -31,7 +31,6 @@ if 'final_recommendations' not in st.session_state:
 
 
 # 추천 평가 함수
-
 def recommend_beans(purchased_bean):
     return list(
         cosine_sim_df[purchased_bean]
@@ -39,7 +38,6 @@ def recommend_beans(purchased_bean):
         .drop([purchased_bean] + brand_names + st.session_state.dislike_list, axis=0)
         .head(3).index
     )
-
 
 # 추천 평가
 
@@ -106,9 +104,6 @@ if purchase_history == "예":
     if st.button("추천 원두 확인"):
         st.session_state.recommended_beans = recommend_beans(purchased_bean)
 
-    st.write(purchased_bean)  # 지울 부분
-    st.write(st.session_state.recommended_beans) # 지울 부분
-
     if st.session_state.recommended_beans:
         for i, bean in enumerate(st.session_state.recommended_beans, start=1):
             st.write(f"{i}. {bean}")
@@ -136,9 +131,6 @@ else:
         cafe_prediction = rf_model.predict(np.array(x).reshape(1, -1))[0]
         predicted_cafe = brand_names[cafe_prediction]
         st.session_state.recommended_beans = recommend_beans(predicted_cafe)
-
-        st.write(st.session_state.recommended_beans)  # 지울 부분
-        st.write(predicted_cafe)  # 지울 부분
 
     if st.session_state.recommended_beans:
         for i, bean in enumerate(st.session_state.recommended_beans, start=1):
