@@ -53,25 +53,20 @@ def evaluate_recommendations(base_bean):
     st.write("### 추천 원두 리스트:")
 
     for bean in st.session_state.recommended_beans:
-        selected = st.feedback("thumbs", key=bean)
-        if selected is not None:
-            st.markdown(f"{bean}: {sentiment_mapping[selected]}")
-            user_feedback[bean] = selected
+        user_feedback[bean] = st.radio(
+            f"{bean} 평가", options=["평가 안 함", "싫어요", "좋아요"], key=f"feedback_{bean}"
+        )
 
-    if st.button("평가 완료"):
+    if st.button("평가 완료", key="evaluation_done"):
         for bean, feedback in user_feedback.items():
-            if feedback == 0:  # thumb_down
+            if feedback == "싫어요":
                 if bean not in st.session_state.dislike_list:
                     st.session_state.dislike_list.append(bean)
-                    st.session_state.recommended_beans.remove(bean)
-                    new_bean = recommend_beans(base_bean)
-                    for nb in new_bean:
-                        if nb not in st.session_state.recommended_beans and nb not in st.session_state.dislike_list:
-                            st.session_state.recommended_beans.append(nb)
-                            break
-            else:  # thumb_up
+                st.session_state.recommended_beans.remove(bean)
+            elif feedback == "좋아요":
                 if bean not in st.session_state.liked_beans:
                     st.session_state.liked_beans.append(bean)
+
 
         if len(st.session_state.liked_beans) == 3:
             st.session_state.final_recommendations = st.session_state.liked_beans
