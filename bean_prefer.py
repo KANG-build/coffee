@@ -106,6 +106,9 @@ if purchase_history == "예":
     if st.button("추천 원두 확인"):
         st.session_state.recommended_beans = recommend_beans(purchased_bean)
 
+    print(purchased_bean)
+    print(st.session_state.recommended_beans)
+
     if st.session_state.recommended_beans:
         for i, bean in enumerate(st.session_state.recommended_beans, start=1):
             st.write(f"{i}. {bean}")
@@ -134,7 +137,11 @@ else:
         predicted_cafe = brand_names[cafe_prediction]
         st.session_state.recommended_beans = recommend_beans(predicted_cafe)
 
+        print(st.session_state.recommended_beans)
+        print(predicted_cafe)
+
     if st.session_state.recommended_beans:
         for i, bean in enumerate(st.session_state.recommended_beans, start=1):
             st.write(f"{i}. {bean}")
-        evaluate_recommendations( st.session_state.recommended_beans)
+        evaluate_recommendations(st.session_state.recommended_beans)
+
